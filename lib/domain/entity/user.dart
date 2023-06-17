@@ -14,6 +14,7 @@ class User {
       : id = "",
         phone = "",
         password = "";
+
   User.fromPhone({required this.phone})
       : id = "",
         email = "",

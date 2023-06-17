@@ -1,19 +1,83 @@
-class AuthUserNotAuthenticateErr implements Exception {}
+import 'package:logity_ma/domain/entity/auth.dart';
 
-class AuthAccessTokenNotExistErr implements Exception {}
+class AuthErr implements Exception {}
 
-class AuthAccessTokenExpiredAtNotExistErr implements Exception {}
+class AuthUserNotAuthenticateErr implements AuthErr {
+  @override
+  String toString() {
+    return "Пользователь не авторизован";
+  }
+}
 
-class AuthAccessTokenExpiredErr implements Exception {}
+class AuthAccessTokenErr implements Exception {}
 
-class AuthRefreshTokenNotExistErr implements Exception {}
+class AuthAccessTokenNotExistErr implements AuthAccessTokenErr {
+  @override
+  String toString() {
+    return "отсутствует access token";
+  }
+}
 
-class AuthRefreshTokenExpiredAtNotExistErr implements Exception {}
+class AuthAccessTokenExpiredAtNotExistErr implements AuthAccessTokenErr {
+  @override
+  String toString() {
+    return "отсутвует информация о истечении access token";
+  }
+}
 
-class AuthRefreshTokenExpiredErr implements Exception {}
+class AuthAccessTokenExpiredErr implements AuthAccessTokenErr {
+  @override
+  String toString() {
+    return "истёк access token";
+  }
+}
 
-class AuthRtcTokenNotExistErr implements Exception {}
+class AuthRefreshErr implements AuthErr {}
 
-class AuthRtcTokenExpiredAtNotExistErr implements Exception {}
+class AuthRefreshTokenNotExistErr implements AuthRefreshErr {
+  @override
+  String toString() {
+    return "отсутcтвует refresh token";
+  }
+}
 
-class AuthRtcTokenExpiredErr implements Exception {}
+class AuthRefreshTokenExpiredAtNotExistErr implements AuthRefreshErr {
+  @override
+  String toString() {
+    return "отсутвует информация о истечении access token";
+  }
+}
+
+class AuthRefreshTokenExpiredErr implements AuthRefreshErr {
+  @override
+  String toString() {
+    return "истёк refresh token";
+  }
+}
+
+class AuthRtcErr implements AuthErr {}
+
+class AuthRtcTokenNotExistErr implements AuthRtcErr {
+  @override
+  String toString() {
+    return "отсутcтвует rtc token";
+  }
+}
+
+class AuthRtcTokenExpiredAtNotExistErr implements AuthRtcErr {
+  @override
+  String toString() {
+    return "отсутвует информация о истечении refresh token";
+  }
+}
+
+class AuthRtcTokenExpiredErr implements AuthRtcErr {
+  @override
+  String toString() {
+    return "истёк refresh token";
+  }
+}
+
+class AuthSignUpByEmailErr implements Exception {}
+
+class AuthSignInErr implements AuthErr {}

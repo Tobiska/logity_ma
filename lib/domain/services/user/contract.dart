@@ -23,5 +23,9 @@ abstract class IAuthProvider {
   Future<User> verifyPhone(VerifyPhoneDto dto);
   Future<User> signUpByEmail(SignUpByEmailDto dto);
 
-  Future<Auth> signIn(SignInDto dto);
+  Future<void> signIn(SignInDto dto);
+
+  Future<void> refreshSubscribes(SignUpByEmailDto dto);
+
+  Future<User> getMeInfo();
 }
