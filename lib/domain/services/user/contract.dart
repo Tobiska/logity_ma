@@ -18,6 +18,10 @@ abstract class ITokensStorage {
   Future<Token> loadRtcToken();
 }
 
+abstract class IUserProvider {
+  Future<User> getMeInfo();
+}
+
 abstract class IAuthProvider {
   Future<User> signUpByPhone(SignUpByPhoneDto dto);
   Future<User> verifyPhone(VerifyPhoneDto dto);

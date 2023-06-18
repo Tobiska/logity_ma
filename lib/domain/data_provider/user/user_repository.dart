@@ -9,15 +9,20 @@ class UserStorage implements IUserStorage {
     final prefs = GetIt.instance<SharedPreferences>();
 
     String userId = prefs.getString("userId") ?? "";
-    String email = prefs.getString("email") ?? "";
-    String phone = prefs.getString("phone") ?? "";
+    String? email = prefs.getString("email");
+    String? phone = prefs.getString("phone");
     return User(id: userId, email: email, phone: phone, password: '');
   }
 
   @override
   Future<void> saveUser(User user) async {
     final prefs = GetIt.instance<SharedPreferences>();
-    prefs.setString("email", user.email);
-    prefs.setString("phone", user.phone);
+    prefs.setString("userId", user.id);
+    if (user.email != null) {
+      prefs.setString("email", user.email!);
+    }
+    if (user.phone != null) {
+      prefs.setString("phone", user.phone!);
+    }
   }
 }

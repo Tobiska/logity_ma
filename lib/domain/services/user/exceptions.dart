@@ -81,3 +81,9 @@ class AuthRtcTokenExpiredErr implements AuthRtcErr {
 class AuthSignUpByEmailErr implements Exception {}
 
 class AuthSignInErr implements AuthErr {}
+
+
+
+class UserErr implements Exception {}
+
+class GetMeErr implements UserErr {}

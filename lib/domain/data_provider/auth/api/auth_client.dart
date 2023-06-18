@@ -1,29 +1,34 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logity_ma/domain/data_provider/auth/api/auth_provider.dart';
 import 'package:logity_ma/domain/data_provider/auth/api/models.dart';
+import 'package:logity_ma/domain/services/user/contract.dart';
 import 'package:logity_ma/domain/services/user/exceptions.dart';
 
 import '../../../entity/auth.dart';
 
 class ApiAuthClient {
-  late Dio _dio;
-  final ApiAuthProvider provider;
+  late Dio dio;
+  final IAuthProvider provider;
+  final ITokensStorage tokenStorage;
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
     final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-    return _dio.request<dynamic>(requestOptions.path,
+    return dio.request<dynamic>(requestOptions.path,
         data: requestOptions.data,
         queryParameters: requestOptions.queryParameters,
         options: options);
   }
 
-  ApiAuthClient(this.provider) {
-    _dio = Dio(BaseOptions(baseUrl: FlutterConfig.get("APP_BACKEND_HOST")));
-    _dio.interceptors
+  ApiAuthClient()
+      : tokenStorage = GetIt.instance<ITokensStorage>(),
+        provider = GetIt.instance<IAuthProvider>() {
+    dio = Dio(BaseOptions(baseUrl: FlutterConfig.get("APP_BACKEND_HOST")));
+    dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       _setAuthenticationRequest(options);
       handler.next(options);
@@ -39,20 +44,19 @@ class ApiAuthClient {
   void _setAuthenticationRequest(RequestOptions opt) async {
     Token accessToken;
     try {
-      accessToken = await provider.tokenStorage.loadAccessToken();
+      accessToken = await tokenStorage.loadAccessToken();
     } on AuthAccessTokenErr catch (_) {
       _refreshToken();
-      accessToken = await provider.tokenStorage.loadAccessToken();
+      accessToken = await tokenStorage.loadAccessToken();
     }
     opt.headers['Authorization'] = 'Bearer ${accessToken.token}';
   }
 
   Future<void> _refreshToken() async {
-    Token refreshToken = await provider.tokenStorage.loadRefreshToken();
-    Response resp = await _dio.post("/auth/refresh",
+    Token refreshToken = await tokenStorage.loadRefreshToken();
+    Response resp = await dio.post("/auth/refresh",
         options: Options(
             headers: {"Authorization": 'Bearer ${refreshToken.token}'}));
-    provider.tokenStorage
-        .saveAccessToken(ApiToken.fromJson(resp.data).toDomain());
+    tokenStorage.saveAccessToken(ApiToken.fromJson(resp.data).toDomain());
   }
 }

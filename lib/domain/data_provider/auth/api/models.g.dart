@@ -9,7 +9,6 @@ part of 'models.dart';
 ApiSignUpByEmail _$ApiSignUpByEmailFromJson(Map<String, dynamic> json) =>
     ApiSignUpByEmail(
       json['email'] as String,
-      json['phone'] as String,
       json['password'] as String,
       json['confirm_password'] as String,
     );
@@ -17,7 +16,6 @@ ApiSignUpByEmail _$ApiSignUpByEmailFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ApiSignUpByEmailToJson(ApiSignUpByEmail instance) =>
     <String, dynamic>{
       'email': instance.email,
-      'phone': instance.phone,
       'password': instance.password,
       'confirm_password': instance.confirmPassword,
     };
@@ -25,13 +23,13 @@ Map<String, dynamic> _$ApiSignUpByEmailToJson(ApiSignUpByEmail instance) =>
 ApiSignUpByEmailResponse _$ApiSignUpByEmailResponseFromJson(
         Map<String, dynamic> json) =>
     ApiSignUpByEmailResponse(
-      json['id'] as String,
+      json['user_id'] as String,
     );
 
 Map<String, dynamic> _$ApiSignUpByEmailResponseToJson(
         ApiSignUpByEmailResponse instance) =>
     <String, dynamic>{
-      'id': instance.userId,
+      'user_id': instance.userId,
     };
 
 ApiSignIn _$ApiSignInFromJson(Map<String, dynamic> json) => ApiSignIn(

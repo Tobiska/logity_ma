@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logity_ma/domain/data_provider/auth/api/models.dart';
@@ -16,19 +18,24 @@ class ApiAuthProvider implements IAuthProvider {
   ITokensStorage get tokenStorage => _tokenStorage;
 
   ApiAuthProvider() : _tokenStorage = GetIt.instance<ITokensStorage>() {
-    _dio = Dio(BaseOptions(baseUrl: FlutterConfig.get("APP_BACKEND_HOST")));
+    _dio = Dio(BaseOptions(
+      baseUrl: FlutterConfig.get("APP_BACKEND_HOST"),
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+    ));
   }
 
   @override
   Future<void> signIn(SignInDto dto) async {
-    Response resp = await _dio.post("/auth/sign-up",
+    Response resp = await _dio.post("/auth/sign-in",
         data: ApiSignIn(dto.login, dto.password).toJson());
 
     if (resp.statusCode! ~/ 100 != 2) {
       throw AuthSignInErr;
     }
 
-    ApiSignInResponse authResponse = ApiSignInResponse.fromJson(resp.data);
+    ApiSignInResponse authResponse =
+        ApiSignInResponse.fromJson(jsonDecode(resp.data));
     _tokenStorage.saveRtcToken(authResponse.rtcToken.toDomain());
     _tokenStorage.saveAccessToken(authResponse.accessToken.toDomain());
     _tokenStorage.saveRefreshToken(authResponse.refreshToken.toDomain());
@@ -36,23 +43,21 @@ class ApiAuthProvider implements IAuthProvider {
 
   @override
   Future<User> signUpByEmail(SignUpByEmailDto dto) async {
-    Response resp = await _dio.post("/auth/sign-up",
-        data: ApiSignUpByEmail(
-                dto.email, dto.email, dto.password, dto.confirmPassword)
-            .toJson());
+    try {
+      Response resp = await _dio.post("/auth/sign-up",
+          data: ApiSignUpByEmail(dto.email, dto.password, dto.confirmPassword)
+              .toJson());
+      if (resp.statusCode! ~/ 100 != 2) {
+        throw AuthSignUpByEmailErr;
+      }
 
-    if (resp.statusCode! ~/ 100 != 2) {
+      ApiSignUpByEmailResponse idResponse =
+          ApiSignUpByEmailResponse.fromJson(jsonDecode(resp.data));
+      return User(
+          id: idResponse.userId, email: dto.email, phone: '', password: '');
+    } on DioError catch (e) {
       throw AuthSignUpByEmailErr;
     }
-
-    ApiSignUpByEmailResponse idResponse =
-        ApiSignUpByEmailResponse.fromJson(resp.data);
-    return User(
-        id: idResponse.userId, email: dto.email, phone: '', password: '');
-  }
-
-  ApiAuthClient createAuthClient() {
-    return ApiAuthClient(this);
   }
 
   @override

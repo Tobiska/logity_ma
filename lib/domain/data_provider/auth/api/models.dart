@@ -9,16 +9,13 @@ class ApiSignUpByEmail {
   @JsonKey(name: "email")
   final String email;
 
-  @JsonKey(name: "phone")
-  final String phone;
-
   @JsonKey(name: "password")
   final String password;
 
   @JsonKey(name: "confirm_password")
   final String confirmPassword;
 
-  ApiSignUpByEmail(this.email, this.phone, this.password, this.confirmPassword);
+  ApiSignUpByEmail(this.email, this.password, this.confirmPassword);
 
   factory ApiSignUpByEmail.fromJson(Map<String, dynamic> json) =>
       _$ApiSignUpByEmailFromJson(json);
@@ -27,7 +24,7 @@ class ApiSignUpByEmail {
 
 @JsonSerializable()
 class ApiSignUpByEmailResponse {
-  @JsonKey(name: "id")
+  @JsonKey(name: "user_id")
   final String userId;
 
   ApiSignUpByEmailResponse(this.userId);
