@@ -1,18 +1,16 @@
 import 'package:get_it/get_it.dart';
-import 'package:logity_ma/domain/services/user/contract.dart';
-import 'package:logity_ma/domain/services/user/dto.dart';
 
 import '../../entity/user.dart';
+import '../user/contract.dart';
+import '../user/dto.dart';
 
-class UserService {
-  final IUserStorage _userRepository;
+class AuthService {
+  final IUserStorage _userStorage;
   final IAuthProvider _authProvider;
-  final IUserProvider _userProvider;
 
-  UserService()
-      : _userRepository = GetIt.instance<IUserStorage>(),
-        _authProvider = GetIt.instance<IAuthProvider>(),
-        _userProvider = GetIt.instance<IUserProvider>();
+  AuthService()
+      : _userStorage = GetIt.instance<IUserStorage>(),
+        _authProvider = GetIt.instance<IAuthProvider>();
 
   Future<void> signUpByEmail(
       String email, String password, String confirmPassword) async {
@@ -22,16 +20,10 @@ class UserService {
     await _authProvider
         .signIn(SignInDto(login: user.email!, password: password));
 
-    _userRepository.saveUser(user);
+    _userStorage.saveUser(user);
   }
 
   Future<void> signIn(String login, String password) async {
     await _authProvider.signIn(SignInDto(login: login, password: password));
-  }
-
-  Future<User> getMe() async {
-    User user = await _userProvider.getMeInfo();
-    _userRepository.saveUser(user);
-    return user;
   }
 }

@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logity_ma/domain/data_provider/auth/api/auth_client.dart';
-import 'package:logity_ma/domain/data_provider/user/api/models.dart';
-import 'package:logity_ma/domain/services/user/contract.dart';
-import 'package:logity_ma/domain/services/user/exceptions.dart';
 
-import '../../../entity/user.dart';
+import '../../../domain/entity/user.dart';
+import '../../../domain/services/user/contract.dart';
+import '../../../domain/services/user/exceptions.dart';
+import '../../authentication/api/auth_client.dart';
+import 'models.dart';
 
 class ApiUserProvider implements IUserProvider {
   final ApiAuthClient _client;

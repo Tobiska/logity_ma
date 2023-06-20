@@ -7,9 +7,9 @@ import 'package:logity_ma/domain/data_provider/auth/api/auth_client.dart';
 import 'package:logity_ma/domain/data_provider/auth/api/auth_provider.dart';
 import 'package:logity_ma/domain/data_provider/auth/token_secure_storage.dart';
 import 'package:logity_ma/domain/data_provider/user/api/user_provider.dart';
-import 'package:logity_ma/domain/data_provider/user/user_repository.dart';
+import 'package:logity_ma/domain/data_provider/user/user_storage.dart';
 import 'package:logity_ma/domain/services/user/contract.dart';
-import 'package:logity_ma/domain/services/user/user.dart';
+import 'package:logity_ma/domain/services/user/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

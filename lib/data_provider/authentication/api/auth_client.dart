@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logity_ma/domain/data_provider/auth/api/auth_provider.dart';
-import 'package:logity_ma/domain/data_provider/auth/api/models.dart';
-import 'package:logity_ma/domain/services/user/contract.dart';
-import 'package:logity_ma/domain/services/user/exceptions.dart';
 
-import '../../../entity/auth.dart';
+import '../../../domain/entity/auth.dart';
+import '../../../domain/services/user/contract.dart';
+import '../../../domain/services/user/exceptions.dart';
+import 'models.dart';
 
 class ApiAuthClient {
   late Dio dio;

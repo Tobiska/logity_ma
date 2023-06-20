@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logity_ma/domain/data_provider/auth/api/models.dart';
 import 'package:logity_ma/domain/entity/user.dart';
 import 'package:logity_ma/domain/services/user/contract.dart';
 import 'package:logity_ma/domain/services/user/dto.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-import '../../../services/user/exceptions.dart';
-import 'auth_client.dart';
+import '../../../domain/services/user/exceptions.dart';
+import 'models.dart';
 
 class ApiAuthProvider implements IAuthProvider {
   final ITokensStorage _tokenStorage;
