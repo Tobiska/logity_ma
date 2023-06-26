@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logity_ma/presentation/registration/view/registration_confirm_number_page.dart';
+import 'package:logity_ma/presentation/registration/view/registration_page.dart';
 import 'package:logity_ma/presentation/welcome/view/welcome_page.dart';
 
 void main() {
@@ -12,7 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/': (_) => WelcomePage(),
+        '/registration': (_) => RegistrationPage(),
+        '/registration/otp': (_) => OtpPage(),
+      },
       title: 'Flutter Demo',
+      initialRoute: '/registration/otp',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,7 +33,6 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
     );
   }
 }

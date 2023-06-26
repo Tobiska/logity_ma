@@ -3,11 +3,6 @@ import 'package:logity_ma/domain/services/user/dto.dart';
 import '../../entity/auth.dart';
 import '../../entity/user.dart';
 
-abstract class IUserStorage {
-  Future<User> loadUser();
-  Future<void> saveUser(User user);
-}
-
 abstract class ITokensStorage {
   Future<void> saveRefreshToken(Token token);
   Future<void> saveAccessToken(Token token);

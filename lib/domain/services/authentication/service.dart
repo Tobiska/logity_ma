@@ -5,11 +5,11 @@ import '../user/contract.dart';
 import '../user/dto.dart';
 
 class AuthService {
-  final IUserStorage _userStorage;
   final IAuthProvider _authProvider;
+  final ITokensStorage _tokensStorage;
 
   AuthService()
-      : _userStorage = GetIt.instance<IUserStorage>(),
+      : _tokensStorage = GetIt.instance<ITokensStorage>(),
         _authProvider = GetIt.instance<IAuthProvider>();
 
   Future<void> signUpByEmail(
@@ -19,11 +19,14 @@ class AuthService {
 
     await _authProvider
         .signIn(SignInDto(login: user.email!, password: password));
-
-    _userStorage.saveUser(user);
   }
 
   Future<void> signIn(String login, String password) async {
     await _authProvider.signIn(SignInDto(login: login, password: password));
+  }
+
+  Future<void> checkUserTokens() async {
+    await _tokensStorage.loadRefreshToken();
+    await _tokensStorage.loadRtcToken();
   }
 }
